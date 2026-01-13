@@ -1,16 +1,17 @@
 import Head from "next/head";
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/router";
 import productsData from "../../data/products.json";
 import categories from "../../data/categories";
 import ProductCard from "../../components/ProductCard";
 import Header from "../../components/Header";
 import CartDrawer from "../../components/CartDrawer";
 
-export default function CategoryPage() {
-  const router = useRouter();
-  const { category } = router.query;
-
+export default function CategoryPage({
+  filteredProducts = [],
+  allProducts = [],
+  categoryKey = "",
+  categoryLabel = "",
+}) {
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [cart, setCart] = useState({});
@@ -43,13 +44,8 @@ export default function CategoryPage() {
     return () => clearTimeout(handler);
   }, [searchInput]);
 
-  const products = productsData;
-
   const filtered = useMemo(() => {
-    let list = products;
-    if (category) {
-      list = list.filter((p) => p.categoryKey === category);
-    }
+    let list = filteredProducts || [];
     if (search) {
       const q = search;
       list = list.filter((p) => {
@@ -59,7 +55,7 @@ export default function CategoryPage() {
       });
     }
     return list;
-  }, [products, category, search]);
+  }, [filteredProducts, search]);
 
   function addToCart(product) {
     setCart((prev) => {
@@ -73,20 +69,29 @@ export default function CategoryPage() {
     return Object.values(cart).reduce((a, b) => a + b, 0);
   }
 
-  const categoryLabel = categories.find((c) => c.key === category)?.label || category;
-
   return (
     <div>
       <Head>
-        <title>{categoryLabel ? `${categoryLabel} – LACA Beauty` : "Catálogo – LACA Beauty"}</title>
+        <title>
+          {categoryLabel
+            ? `${categoryLabel} – LACA Beauty`
+            : "Catálogo – LACA Beauty"}
+        </title>
       </Head>
 
-      <Header cartCount={cartCount()} onOpenCart={() => setCartOpen(true)} searchValue={searchInput} onSearchChange={setSearchInput} />
+      <Header
+        cartCount={cartCount()}
+        onOpenCart={() => setCartOpen(true)}
+        searchValue={searchInput}
+        onSearchChange={setSearchInput}
+      />
 
       <main className="container py-8">
         <section className="mb-6 flex items-center justify-between">
           <h1 className="text-3xl font-bold">{categoryLabel || "Categoría"}</h1>
-          <div className="text-sm text-gray-600">{filtered.length} productos</div>
+          <div className="text-sm text-gray-600">
+            {filtered.length} productos
+          </div>
         </section>
 
         <section>
@@ -98,7 +103,36 @@ export default function CategoryPage() {
         </section>
       </main>
 
-      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} products={products} cart={cart} setCart={setCart} waNumber={""} />
+      <CartDrawer
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+        products={allProducts}
+        cart={cart}
+        setCart={setCart}
+        waNumber={""}
+      />
     </div>
   );
+}
+
+export async function getStaticPaths() {
+  const cats = (await import("../../data/categories")).default || [];
+  const paths = cats.map((c) => ({ params: { category: c.key } }));
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }) {
+  const products = (await import("../../data/products.json")).default || [];
+  const cats = (await import("../../data/categories")).default || [];
+  const filtered = products.filter((p) => p.categoryKey === params.category);
+  const label =
+    cats.find((c) => c.key === params.category)?.label || params.category;
+  return {
+    props: {
+      filteredProducts: filtered,
+      allProducts: products,
+      categoryKey: params.category,
+      categoryLabel: label,
+    },
+  };
 }

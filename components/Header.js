@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import categories from "../data/categories";
 
 export default function Header({
@@ -8,6 +9,29 @@ export default function Header({
   onSearchChange,
 }) {
   // categories imported from data/categories.js
+  const [menuOpen, setMenuOpen] = useState(false);
+  const wrapperRef = useRef(null);
+  const closeTimerRef = useRef(null);
+
+  useEffect(() => {
+    function onDocClick(e) {
+      if (!wrapperRef.current) return;
+      if (!wrapperRef.current.contains(e.target)) setMenuOpen(false);
+    }
+    function onEsc(e) {
+      if (e.key === "Escape") setMenuOpen(false);
+    }
+    document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("touchstart", onDocClick);
+    document.addEventListener("keydown", onEsc);
+    return () => {
+      document.removeEventListener("mousedown", onDocClick);
+      document.removeEventListener("touchstart", onDocClick);
+      document.removeEventListener("keydown", onEsc);
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, []);
+
   return (
     <header className="w-full bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -24,9 +48,31 @@ export default function Header({
 
         <nav className="hidden md:flex items-center gap-6">
           <Link href="#">Inicio</Link>
-          <div className="relative group">
-            <Link
-              href="/products"
+          <div
+            className="relative"
+            ref={wrapperRef}
+            onMouseEnter={() => {
+              if (closeTimerRef.current) {
+                clearTimeout(closeTimerRef.current);
+                closeTimerRef.current = null;
+              }
+              setMenuOpen(true);
+            }}
+            onMouseLeave={() => {
+              // small delay to avoid accidental closure when moving between button and menu
+              if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+              closeTimerRef.current = setTimeout(() => {
+                setMenuOpen(false);
+                closeTimerRef.current = null;
+              }, 180);
+            }}
+          >
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setMenuOpen((v) => !v);
+              }}
+              aria-expanded={menuOpen}
               className="flex items-center gap-2 focus:outline-none"
             >
               Productos
@@ -37,16 +83,27 @@ export default function Header({
                   clipRule="evenodd"
                 />
               </svg>
-            </Link>
+            </button>
 
-            {/* Megamenú: aparece al pasar el mouse y muestra categorías en columnas */}
-            <div className="absolute left-0 mt-2 w-screen max-w-4xl bg-white border-t border-b shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transform -translate-y-1 group-hover:translate-y-0 transition-all duration-150 pointer-events-none group-hover:pointer-events-auto z-50">
+            {/* Megamenú: aparece al pasar el mouse y muestra categorías en columnas; también abre por click/tap */}
+            <div
+              className={`absolute left-0 mt-2 w-screen max-w-4xl bg-white border-t border-b shadow-lg transform -translate-y-1 transition-all duration-150 z-50 ${
+                menuOpen
+                  ? "opacity-100 translate-y-0 pointer-events-auto"
+                  : "opacity-0 pointer-events-none"
+              }`}
+            >
               <div className="max-w-7xl mx-auto px-6 py-6">
                 <div className="grid grid-cols-4 gap-4">
                   {categories.map((c) => (
                     <div key={c.key} className="py-2">
-                      <Link href={`/products/${c.key}`} className="text-sm hover:text-pink-600">
-                        {c.label}
+                      <Link href={`/products/${c.key}`} legacyBehavior>
+                        <a
+                          className="text-sm hover:text-pink-600"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {c.label}
+                        </a>
                       </Link>
                     </div>
                   ))}
