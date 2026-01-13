@@ -1,0 +1,26 @@
+[
+  {
+    "id": "p1",
+    "name": "Sérum Iluminador",
+    "price": 45000,
+    "description": "Sérum facial con vitamina C para iluminar la piel.",
+    "image": "/placeholder.svg",
+    "stock": 12
+  },
+  {
+    "id": "p2",
+    "name": "Crema Hidratante",
+    "price": 38000,
+    "description": "Crema diaria para todo tipo de piel.",
+    "image": "/placeholder.svg",
+    "stock": 20
+  },
+  {
+    "id": "p3",
+    "name": "Exfoliante Suave",
+    "price": 29000,
+    "description": "Exfoliante natural suave para renovar la piel.",
+    "image": "/placeholder.svg",
+    "stock": 8
+  }
+]
