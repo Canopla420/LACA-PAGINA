@@ -4,6 +4,8 @@
     "name": "Sérum Iluminador",
     "price": 45000,
     "description": "Sérum facial con vitamina C para iluminar la piel.",
+    "category": "Línea sensorial",
+    "categoryKey": "linea-sensorial",
     "image": "/placeholder.svg",
     "stock": 12
   },
@@ -12,6 +14,8 @@
     "name": "Crema Hidratante",
     "price": 38000,
     "description": "Crema diaria para todo tipo de piel.",
+    "category": "Pieles grasas",
+    "categoryKey": "pieles-grasas",
     "image": "/placeholder.svg",
     "stock": 20
   },
@@ -20,7 +24,40 @@
     "name": "Exfoliante Suave",
     "price": 29000,
     "description": "Exfoliante natural suave para renovar la piel.",
+    "category": "Corporales",
+    "categoryKey": "corporales",
     "image": "/placeholder.svg",
     "stock": 8
+  }
+  ,
+  {
+    "id": "p4",
+    "name": "Sombras Cuarteto 481 Endorphin",
+    "price": 46200,
+    "description": "Cuarteto de sombras con tonos neutros y combinables. Edición de la colección de la temporada.",
+    "category": "Colección de la temporada",
+    "categoryKey": "coleccion-temporada",
+    "image": "/placeholder.svg",
+    "stock": 20
+  },
+  {
+    "id": "p5",
+    "name": "Protección Solar Ultra Fluido 60FPS",
+    "price": 38000,
+    "description": "Protector solar de rápida absorción con alta protección. Destacado de la temporada.",
+    "category": "Colección de la temporada",
+    "categoryKey": "coleccion-temporada",
+    "image": "/placeholder.svg",
+    "stock": 25
+  },
+  {
+    "id": "p6",
+    "name": "Vital Glow | Hyalu-Mask",
+    "price": 46200,
+    "description": "Mascarilla facial formulada con ácido hialurónico para dar volumen e hidratación.",
+    "category": "Colección de la temporada",
+    "categoryKey": "coleccion-temporada",
+    "image": "/placeholder.svg",
+    "stock": 12
   }
 ]
