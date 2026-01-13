@@ -38,6 +38,7 @@
     "category": "Colección de la temporada",
     "categoryKey": "coleccion-temporada",
     "image": "/placeholder.svg",
+    "featured": true,
     "stock": 20
   },
   {
@@ -48,6 +49,7 @@
     "category": "Colección de la temporada",
     "categoryKey": "coleccion-temporada",
     "image": "/placeholder.svg",
+    "featured": true,
     "stock": 25
   },
   {
@@ -58,6 +60,7 @@
     "category": "Colección de la temporada",
     "categoryKey": "coleccion-temporada",
     "image": "/placeholder.svg",
+    "featured": true,
     "stock": 12
   }
 ]
