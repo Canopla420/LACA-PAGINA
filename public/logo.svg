@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 160" role="img" aria-label="LACA Beauty" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+  <title>LACA Beauty</title>
+  <rect width="100%" height="100%" fill="none" />
+  <g fill="#2b4752" font-family="Arial, Helvetica, sans-serif">
+    <!-- Centered main word (higher resolution) -->
+    <text x="50%" y="74" text-anchor="middle" font-size="68" font-weight="800" letter-spacing="8">LACA</text>
+    <!-- Centered subtitle, lighter color and spaced (higher resolution) -->
+    <text x="50%" y="122" text-anchor="middle" font-size="24" fill="#6b7d86" letter-spacing="8">BEAUTY</text>
+  </g>
+</svg>

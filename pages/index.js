@@ -3,12 +3,15 @@ import { useEffect, useState } from "react";
 import productsData from "../data/products.json";
 import ProductCard from "../components/ProductCard";
 import Header from "../components/Header";
+import CartDrawer from "../components/CartDrawer";
+import Hero from "../components/Hero";
 
 const WA_NUMBER = ""; // Poner número en formato internacional sin +, p.ej. 595XXXXXXXX
 
 export default function Home() {
   const [products] = useState(productsData);
   const [cart, setCart] = useState({});
+  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     const raw = localStorage.getItem("laca_cart");
@@ -60,7 +63,9 @@ export default function Home() {
       <Head>
         <title>LACA Beauty</title>
       </Head>
-      <Header cartCount={cartCount()} />
+      <Header cartCount={cartCount()} onOpenCart={() => setCartOpen(true)} />
+
+      <Hero />
 
       <main className="container py-8">
         <section className="mb-6 flex items-center justify-between">
@@ -83,6 +88,15 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      <CartDrawer
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+        products={products}
+        cart={cart}
+        setCart={setCart}
+        waNumber={WA_NUMBER}
+      />
     </div>
   );
 }
