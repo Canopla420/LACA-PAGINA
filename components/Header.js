@@ -1,4 +1,5 @@
 import Link from "next/link";
+import categories from "../data/categories";
 
 export default function Header({
   cartCount,
@@ -6,30 +7,7 @@ export default function Header({
   searchValue,
   onSearchChange,
 }) {
-  const categories = [
-    { key: "destacados-temporada", label: "Destacados de la temporada" },
-    { key: "lanzamientos-temporada", label: "Lanzamientos de la temporada" },
-    { key: "nuevo-envase", label: "Nuevo envase" },
-    { key: "coleccion-temporada", label: "Colección de la temporada" },
-    { key: "fragancias", label: "Fragancias" },
-    { key: "linea-sensorial", label: "Línea sensorial" },
-    { key: "corporales", label: "Corporales" },
-    { key: "antiage", label: "Antiage" },
-    { key: "cuidados-basicos", label: "Cuidados básicos" },
-    { key: "pieles-delicadas", label: "Pieles delicadas" },
-    { key: "pieles-grasas", label: "Pieles grasas" },
-    { key: "linea-teens", label: "Línea teens" },
-    { key: "renovacion-celular", label: "Renovación celular" },
-    { key: "color", label: "Color / Maquillaje" },
-    { key: "cuidados-capilares", label: "Cuidados capilares" },
-    { key: "manos-pies", label: "Manos y pies" },
-    { key: "humectacion", label: "Humectación / Hidratación" },
-    { key: "cuidados-masculinos", label: "Cuidados masculinos" },
-    { key: "cejas-pestanas", label: "Cejas y pestañas" },
-    { key: "proteccion-solar", label: "Protección solar" },
-    { key: "mascarillas", label: "Mascarillas" },
-    { key: "exfoliantes", label: "Exfoliantes" },
-  ];
+  // categories imported from data/categories.js
   return (
     <header className="w-full bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -47,7 +25,10 @@ export default function Header({
         <nav className="hidden md:flex items-center gap-6">
           <Link href="#">Inicio</Link>
           <div className="relative group">
-            <Link href="/products" className="flex items-center gap-2 focus:outline-none">
+            <Link
+              href="/products"
+              className="flex items-center gap-2 focus:outline-none"
+            >
               Productos
               <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
                 <path
@@ -64,7 +45,7 @@ export default function Header({
                 <div className="grid grid-cols-4 gap-4">
                   {categories.map((c) => (
                     <div key={c.key} className="py-2">
-                      <Link href={`/products?category=${c.key}`} className="text-sm hover:text-pink-600">
+                      <Link href={`/products/${c.key}`} className="text-sm hover:text-pink-600">
                         {c.label}
                       </Link>
                     </div>

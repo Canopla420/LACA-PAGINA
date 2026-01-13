@@ -1,0 +1,26 @@
+const categories = [
+  { key: "destacados-temporada", label: "Destacados de la temporada" },
+  { key: "lanzamientos-temporada", label: "Lanzamientos de la temporada" },
+  { key: "nuevo-envase", label: "Nuevo envase" },
+  { key: "coleccion-temporada", label: "Colección de la temporada" },
+  { key: "fragancias", label: "Fragancias" },
+  { key: "linea-sensorial", label: "Línea sensorial" },
+  { key: "corporales", label: "Corporales" },
+  { key: "antiage", label: "Antiage" },
+  { key: "cuidados-basicos", label: "Cuidados básicos" },
+  { key: "pieles-delicadas", label: "Pieles delicadas" },
+  { key: "pieles-grasas", label: "Pieles grasas" },
+  { key: "linea-teens", label: "Línea teens" },
+  { key: "renovacion-celular", label: "Renovación celular" },
+  { key: "color", label: "Color / Maquillaje" },
+  { key: "cuidados-capilares", label: "Cuidados capilares" },
+  { key: "manos-pies", label: "Manos y pies" },
+  { key: "humectacion", label: "Humectación / Hidratación" },
+  { key: "cuidados-masculinos", label: "Cuidados masculinos" },
+  { key: "cejas-pestanas", label: "Cejas y pestañas" },
+  { key: "proteccion-solar", label: "Protección solar" },
+  { key: "mascarillas", label: "Mascarillas" },
+  { key: "exfoliantes", label: "Exfoliantes" },
+];
+
+export default categories;
