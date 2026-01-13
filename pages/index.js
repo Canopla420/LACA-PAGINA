@@ -10,6 +10,30 @@ const WA_NUMBER = ""; // Poner número en formato internacional sin +, p.ej. 595
 
 export default function Home() {
   const [products] = useState(productsData);
+  // Entrada controlada (instantánea) y búsqueda normalizada con debounce para filtrar
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
+
+  // Normaliza: pasar a minúsculas, quitar acentos y recortar espacios
+  function normalizeString(str) {
+    return str
+      .normalize("NFD") // separar acentos
+      .replace(/\p{Diacritic}/gu, "")
+      .toLowerCase()
+      .trim();
+  }
+
+  // Debounce en la entrada de búsqueda para que sea menos sensible
+  useEffect(() => {
+    const q = normalizeString(searchInput || "");
+    // si la consulta es corta, limpiar la búsqueda (requerir al menos 2 caracteres)
+    if (!q || q.length < 2) {
+      const t = setTimeout(() => setSearch(""), 250);
+      return () => clearTimeout(t);
+    }
+    const handler = setTimeout(() => setSearch(q), 400);
+    return () => clearTimeout(handler);
+  }, [searchInput]);
   const [cart, setCart] = useState({});
   const [cartOpen, setCartOpen] = useState(false);
 
@@ -63,7 +87,12 @@ export default function Home() {
       <Head>
         <title>LACA Beauty</title>
       </Head>
-      <Header cartCount={cartCount()} onOpenCart={() => setCartOpen(true)} />
+      <Header
+        cartCount={cartCount()}
+        onOpenCart={() => setCartOpen(true)}
+        searchValue={searchInput}
+        onSearchChange={setSearchInput}
+      />
 
       <Hero />
 
@@ -81,10 +110,26 @@ export default function Home() {
         </section>
 
         <section>
+          <div className="mb-4">
+            {search && (
+              <p className="text-sm text-gray-600">
+                Resultados para: "{search}"
+              </p>
+            )}
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((p) => (
-              <ProductCard key={p.id} product={p} onAdd={addToCart} />
-            ))}
+            {products
+              .filter((p) => {
+                if (!search) return true;
+                const q = search; // ya está normalizada
+                const name = normalizeString(p.name || "");
+                const desc = normalizeString(p.description || "");
+                return name.includes(q) || desc.includes(q);
+              })
+              .map((p) => (
+                <ProductCard key={p.id} product={p} onAdd={addToCart} />
+              ))}
           </div>
         </section>
       </main>
