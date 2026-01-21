@@ -47,7 +47,7 @@ export default function Header({
         </div>
 
         <nav className="hidden md:flex items-center gap-6">
-          <Link href="#">Inicio</Link>
+          <Link href="/">Inicio</Link>
           <div
             className="relative"
             ref={wrapperRef}
@@ -112,7 +112,14 @@ export default function Header({
             </div>
           </div>
           <Link href="#">Dónde comprar</Link>
-          <Link href="#">Contacto</Link>
+
+          <a
+            href="/#contacto"
+            className="hover:text-pink-600"
+            onClick={() => setMenuOpen(false)}
+          >
+            Contacto
+          </a>
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
