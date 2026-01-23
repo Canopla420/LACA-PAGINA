@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function Hero({ images = ["/hero1.svg", "/hero2.svg"] }) {
+export default function Hero({ images = ["/hero1.png", "/hero2.png"] }) {
   const [idx, setIdx] = useState(0);
 
   function prev() {
@@ -12,16 +12,17 @@ export default function Hero({ images = ["/hero1.svg", "/hero2.svg"] }) {
     setIdx((i) => (i + 1) % images.length);
   }
 
+  const src = images[idx];
+
   return (
-    <section className="relative w-full bg-white">
-      <div className="relative w-full">
+    <section className="relative w-full max-w-full bg-white overflow-hidden overflow-x-hidden">
+      <div className="relative w-full max-w-full h-64 md:h-96 max-h-[60vh] md:max-h-[80vh]">
         <Image
-          src={images[idx]}
+          src={src}
           alt={`Hero ${idx + 1}`}
-          width={1600}
-          height={600}
+          fill
           priority={idx === 0}
-          className="w-full h-64 md:h-96 object-cover bg-gray-100 block"
+          className="object-contain object-center w-full h-full"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1600px"
         />
 
