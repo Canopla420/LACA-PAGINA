@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Hero({ images = ["/hero1.svg", "/hero2.svg"] }) {
   const [idx, setIdx] = useState(0);
@@ -14,10 +15,14 @@ export default function Hero({ images = ["/hero1.svg", "/hero2.svg"] }) {
   return (
     <section className="relative w-full bg-white">
       <div className="relative w-full">
-        <img
+        <Image
           src={images[idx]}
           alt={`Hero ${idx + 1}`}
+          width={1600}
+          height={600}
+          priority={idx === 0}
           className="w-full h-64 md:h-96 object-cover bg-gray-100 block"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1600px"
         />
 
         <button

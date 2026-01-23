@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export default function CartDrawer({
   open,
@@ -77,9 +78,11 @@ export default function CartDrawer({
           )}
           {items.map((it) => (
             <div key={it.id} className="flex items-center gap-3 mb-3">
-              <img
+              <Image
                 src={it.image}
                 alt={it.name}
+                width={64}
+                height={48}
                 className="w-16 h-12 object-contain bg-gray-100 p-2 rounded"
               />
               <div className="flex-1">

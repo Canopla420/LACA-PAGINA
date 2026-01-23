@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import categories from "../data/categories";
 
@@ -10,6 +11,7 @@ export default function Header({
 }) {
   // categories imported from data/categories.js
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const wrapperRef = useRef(null);
   const closeTimerRef = useRef(null);
 
@@ -37,16 +39,94 @@ export default function Header({
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Link href="/">
-            <img
+            <Image
               src="/logo.svg"
               alt="LACA Beauty"
+              width={160}
+              height={64}
               className="h-20 md:h-16 w-auto"
               style={{ imageRendering: "auto" }}
             />
           </Link>
+              {/* mobile menu button */}
+              <button
+                className="md:hidden p-2 rounded focus:outline-none"
+                aria-label="Abrir menú"
+                onClick={() => setMobileOpen(true)}
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
         </div>
 
         <nav className="hidden md:flex items-center gap-6">
+          {/* Mobile drawer */}
+          <div className={`md:hidden ${mobileOpen ? "block" : "hidden"}`}> 
+            <div className="fixed inset-0 z-40">
+              <div
+                className="absolute inset-0 bg-black/40"
+                onClick={() => setMobileOpen(false)}
+              />
+
+              <aside className="absolute right-0 top-0 h-full w-72 bg-white shadow-lg p-4 overflow-auto">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="text-lg font-bold">Menú</div>
+                  <button
+                    aria-label="Cerrar menú"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-2 rounded"
+                  >
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="mb-4">
+                  <label className="sr-only" htmlFor="mobile-search">Buscar productos</label>
+                  <input
+                    id="mobile-search"
+                    type="search"
+                    value={searchValue || ""}
+                    onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
+                    placeholder="Buscar productos..."
+                    className="w-full border rounded px-3 py-2 focus:outline-none"
+                  />
+                </div>
+
+                <nav className="flex flex-col gap-3">
+                  <Link href="/" onClick={() => setMobileOpen(false)}>Inicio</Link>
+
+                  <div className="pt-2">
+                    <div className="font-medium mb-2">Productos</div>
+                    <div className="flex flex-col gap-1">
+                      {categories.map((c) => (
+                        <Link key={c.key} href={`/products/${c.key}`} className="text-sm" onClick={() => setMobileOpen(false)}>
+                          {c.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  <Link href="#" onClick={() => setMobileOpen(false)}>Dónde comprar</Link>
+
+                  <a href="/#contacto" onClick={() => setMobileOpen(false)}>Contacto</a>
+
+                  <button
+                    onClick={() => {
+                      setMobileOpen(false);
+                      onOpenCart && onOpenCart();
+                    }}
+                    className="mt-4 flex items-center gap-2"
+                  >
+                    <span>Carrito:</span>
+                    <span className="font-semibold">{cartCount}</span>
+                  </button>
+                </nav>
+              </aside>
+            </div>
+          </div>
           <Link href="/">Inicio</Link>
           <div
             className="relative"
@@ -97,13 +177,8 @@ export default function Header({
                 <div className="grid grid-cols-4 gap-4">
                   {categories.map((c) => (
                     <div key={c.key} className="py-2">
-                      <Link href={`/products/${c.key}`} legacyBehavior>
-                        <a
-                          className="text-sm hover:text-pink-600"
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          {c.label}
-                        </a>
+                      <Link href={`/products/${c.key}`} className="text-sm hover:text-pink-600" onClick={() => setMenuOpen(false)}>
+                        {c.label}
                       </Link>
                     </div>
                   ))}

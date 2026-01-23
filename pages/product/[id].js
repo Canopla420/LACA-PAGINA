@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import Image from "next/image";
 import products from "../../data/products.json";
 import Header from "../../components/Header";
 
@@ -23,10 +24,13 @@ export default function ProductPage() {
       <main className="container py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <img
+            <Image
               src={product.image}
               alt={product.name}
+              width={800}
+              height={600}
               className="w-full h-96 object-contain bg-white p-6 rounded"
+              sizes="(max-width: 768px) 100vw, 800px"
             />
           </div>
           <div>
