@@ -1,0 +1,17 @@
+
+> laca-beauty-site@0.1.0 dev
+> next dev
+
+  ▲ Next.js 13.5.11
+  - Local:        http://localhost:3000
+
+ ✓ Ready in 937ms
+ ✓ Compiled / in 173ms (270 modules)
+ ✓ Compiled /products in 572ms (315 modules)
+ ✓ Compiled /products/[category] in 87ms (320 modules)
+ ✓ Compiled in 128ms (317 modules)
+ ✓ Compiled in 83ms (317 modules)
+ ✓ Compiled in 95ms (317 modules)
+ ✓ Compiled in 79ms (317 modules)
+ ✓ Compiled in 78ms (317 modules)
+ ✓ Compiled in 88ms (317 modules)

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import productsData from "../data/products.json";
 import ProductCard from "../components/ProductCard";
 import Header from "../components/Header";
@@ -37,6 +37,51 @@ export default function HomePage() {
   const [cart, setCart] = useState({});
   const [cartOpen, setCartOpen] = useState(false);
 
+  // Toast para avisos rápidos (producto agregado)
+  const [toast, setToast] = useState({ visible: false, message: "su producto se agrego al carrito correctamente" });
+  const toastTimer = useRef(null);
+
+  function showToast(message) {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    setToast({ visible: true, message });
+    toastTimer.current = setTimeout(() => {
+      setToast({ visible: false, message: "" });
+      toastTimer.current = null;
+    }, 2500);
+  }
+
+  useEffect(() => {
+    return () => {
+      if (toastTimer.current) clearTimeout(toastTimer.current);
+    };
+  }, []);
+
+  // Componente interno para toast con animación de entrada (estilo "llega un mensaje")
+  function ToastBox({ message }) {
+    const [enter, setEnter] = useState(false);
+    useEffect(() => {
+      // pequeña delay para forzar el frame inicial y activar la transición
+      const t = setTimeout(() => setEnter(true), 10);
+      return () => clearTimeout(t);
+    }, []);
+
+    return (
+      <div className="fixed right-4 bottom-6 z-50 pointer-events-none">
+        <div
+          role="status"
+          aria-live="polite"
+          className={`pointer-events-auto max-w-xs w-full bg-white text-black px-4 py-2 rounded shadow-lg border border-gray-200 transform transition-all duration-300 ease-out ${
+            enter
+              ? "opacity-100 translate-y-0 translate-x-0 scale-100"
+              : "opacity-0 translate-y-4 translate-x-6 scale-95"
+          }`}
+        >
+          {message}
+        </div>
+      </div>
+    );
+  }
+
   useEffect(() => {
     const raw = localStorage.getItem("laca_cart");
     if (raw) setCart(JSON.parse(raw));
@@ -52,6 +97,8 @@ export default function HomePage() {
       next[product.id] = (next[product.id] || 0) + 1;
       return next;
     });
+    // Mostrar aviso cuando se agrega un producto
+    showToast(`"${product.name}" agregado al carrito`);
   }
 
   function cartCount() {
@@ -142,6 +189,9 @@ export default function HomePage() {
         setCart={setCart}
         waNumber={WA_NUMBER}
       />
+
+      {/* Toast simple bottom-right (animado) */}
+      {toast.visible && <ToastBox message={toast.message} />}
 
       
     </>
